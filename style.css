@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+#myCanvas {
+    position: absolute;
+    margin: 20px;
+    border: solid 1px #000;
+    pointer-events: none;
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    bottom: 0;
+    display: none;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background-color: rgba(204, 204, 204, 0);
+}
+::-webkit-scrollbar-thumb {
+    display: none;
+}
+
+#buttonlist {
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 0;
+    pointer-events: auto !important;
+}
+
+#buttonlist button {
+    z-index: 2;
+    display: block;
+    overflow: hidden;
+    width: 250px;
+    height: 65px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease 0s !important;
+    direction: rtl;
+    text-align: left;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    backdrop-filter: invert(100%);
+    overflow-x: hidden;
+    pointer-events: auto !important;
+    animation: a 1s;
+}
+#buttonlist button p {
+    /* display: flex;
+    align-items: center; */
+}
+
+@keyframes a {
+    0% {
+        transform: translateX(-200px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#buttonlist button:first-child {
+    margin-top: 100px;
+}
+
+#buttonlist button:last-child {
+    margin-bottom: 600px;
+}
+
+#buttonlist button:hover {
+    /* width: 90%; */
+}
+
+button.none {
+    background-color: rgb(211, 215, 215);
+    backdrop-filter: blur(10px);
+    color: rgb(0, 0, 0);
+    transition: all 0.5s ease 0s !important;
+}
+
+button.active {
+    --color: rgba(0, 172, 6, 0.56);
+    z-index: 2 !important;
+    background-color: var(--color);
+    color: rgb(0, 0, 0);
+    backdrop-filter: blur(9px);
+    border-radius: 5px;
+    transition: all 0.3s ease 0s !important;
+    height: 90px !important;
+    font-size: 20px !important;
+    width: 90% !important;
+}
+
+button .time {
+    font-size: 14px;
+    line-height: 10px;
+}
+
+button .name {
+    font-size: 18px;
+    line-height: 10px;
+}
+
+#status {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: auto;
+    max-height: 70%;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(211, 215, 215);
+    border-radius: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    animation: a 1s;
+    transition: all 0.3s ease 0s !important;
+}
+
+.statusText {
+    font-size: 16px;
+    animation: b 0.5s;
+}
+
+@keyframes b {
+    0% {
+        transform: translateX(200px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
