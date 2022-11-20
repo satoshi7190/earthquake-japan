@@ -149,6 +149,7 @@ async function callApi() {
         polling();
     } catch (error) {
         console.error(error);
+        alert('エラー。地震情報を取得できません。');
     }
 }
 
