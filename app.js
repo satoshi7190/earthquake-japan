@@ -14,7 +14,7 @@ map = new maplibregl.Map({
     style: {
         version: 8,
         sources: {
-            'raster-tiles': {
+            r: {
                 type: 'raster',
                 tiles: [
                     'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
@@ -39,9 +39,9 @@ map = new maplibregl.Map({
 
         layers: [
             {
-                id: 'simple-tiles',
+                id: 'eiseisyasin',
                 type: 'raster',
-                source: 'raster-tiles',
+                source: 'r',
                 minzoom: 0,
                 maxzoom: 24,
                 paint: {
@@ -50,7 +50,7 @@ map = new maplibregl.Map({
                 },
             },
             {
-                id: 'hazama',
+                id: 'background',
                 type: 'background',
                 paint: {
                     'background-color': '#000000',
@@ -311,9 +311,11 @@ const polling = () => {
         if (resultID !== listfix[0].id) {
             earthquakeData = listfix;
             resultID = listfix[0].id;
+            const buttonlist = document.getElementById('buttonlist');
             buttonlist.innerHTML = '';
             buttonFactory(listfix);
             Jump(resultID);
+            window.location.href = '#' + resultID;
         }
 
         polling(); // 再帰呼び出し
