@@ -315,7 +315,6 @@ const polling = () => {
             buttonlist.innerHTML = '';
             buttonFactory(listfix);
             Jump(resultID);
-            window.location.href = '#' + resultID;
         }
 
         polling(); // 再帰呼び出し
