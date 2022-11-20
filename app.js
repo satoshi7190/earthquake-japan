@@ -6,8 +6,8 @@ let earthquakeData = {};
 let resultID = '';
 // カラースケール
 let f = chroma
-    .scale(['#00ff51', '#f6ff00', '#ff9500', '#fe0000'])
-    .domain([0, 8]);
+    .scale(['#7bff00', '#ffea00', '#ff1500', '#fe00ed'])
+    .domain([0, 9]);
 
 map = new maplibregl.Map({
     container: 'map',
@@ -101,9 +101,11 @@ map = new maplibregl.Map({
     center: [137.8894, 39.0613],
     zoom: 4,
     pitch: 60,
+    customAttribution:
+        "データ出典：<a href='https://www.p2pquake.net/' target='_blank'>P2P地震情報</a>・<a href='https://www.jma.go.jp/jma/index.html' target='_blank'>気象庁HP</a>",
 });
 
-map.on('load', function () {
+map.on('load', () => {
     const square = turf.bbox(
         turf.buffer(turf.point([137.8894, 39.0613]), 1, {
             units: 'miles',
@@ -130,13 +132,13 @@ map.on('load', function () {
 
 async function callApi() {
     try {
-        const res = await window.fetch(API);
-        const list = await res.json();
+        const response = await window.fetch(API);
+        const list = await response.json();
         //座標がおかしいものは排除
-        let listfix = list.filter(function (hero) {
+        let listfix = list.filter(function (data) {
             return (
-                hero.earthquake.hypocenter.latitude !== -200 &&
-                hero.points.length > 0
+                data.earthquake.hypocenter.latitude !== -200 &&
+                data.points.length > 0
             );
         });
 
@@ -150,8 +152,9 @@ async function callApi() {
     }
 }
 
+// ボタンの生成
 function buttonFactory(listfix) {
-    listfix.forEach(function (data) {
+    listfix.map((data) => {
         const buttonlist = document.getElementById('buttonlist');
         const button = document.createElement('button');
         button.className = 'none';
@@ -171,12 +174,10 @@ function buttonFactory(listfix) {
     });
 }
 
-// キャンバス
+// 対象キャンバス
 const canvas = document.getElementById('myCanvas');
 // 開始時間
 let startTime = Date.now();
-// 動かしたやつの初期値
-let startValue = 0;
 // 動かしたやつの最大値
 let endValue = 240;
 //イージング
@@ -205,7 +206,7 @@ function Jump(params) {
     const status = document.getElementById('status');
     status.innerHTML = '';
 
-    selectData[0].points.forEach(function (data) {
+    selectData[0].points.map((data) => {
         const text = document.createElement('p');
         text.innerText = `震度${data.scale / 10} ${data.pref + data.addr}`;
         text.className = 'statusText';
@@ -219,10 +220,6 @@ function Jump(params) {
     });
     const arr = new Set(filter);
     map.setFilter('jpn', ['in', 'name', ...arr]);
-
-    // 詳細情報のセット
-    const root = document.querySelector('#status');
-    root.style.setProperty('height', selectData[0].points.length * 80 + 'px');
 
     // canvasレイヤーの設置
     const square = turf.bbox(
@@ -260,10 +257,10 @@ function Jump(params) {
         // 描画リセット
         canvas.width = canvas.width;
         // 増やす
-        progress = Math.min(1, (Date.now() - startTime) / 1000);
-        progres2 = Math.min(1, (Date.now() - startTime) / 100);
+        mainProgress = Math.min(1, (Date.now() - startTime) / 1000);
+        subProgres = Math.min(1, (Date.now() - startTime) / 100);
         // 動かす量
-        let moveValue = endValue * easeOutSine(progress);
+        let moveValue = endValue * easeOutSine(mainProgress);
 
         //円
         const ctxCircle = canvas.getContext('2d');
@@ -273,7 +270,7 @@ function Jump(params) {
         ctxCircle.lineWidth = 5;
         ctxCircle.beginPath();
         ctxCircle.arc(250, 250, moveValue, 0, 2 * Math.PI);
-        ctxCircle.globalAlpha = progres2;
+        ctxCircle.globalAlpha = subProgres;
         ctxCircle.closePath();
         ctxCircle.stroke();
 
@@ -289,7 +286,7 @@ function Jump(params) {
         center.lineTo(260, 240);
         center.stroke();
 
-        if (progress < 1) {
+        if (mainProgress < 1) {
             requestAnimationFrame(anime);
         }
     };
@@ -303,10 +300,10 @@ const polling = () => {
         const response = await fetch(API);
         const list = await response.json();
         //座標がおかしいものは排除
-        let listfix = list.filter(function (hero) {
+        let listfix = list.filter((data) => {
             return (
-                hero.earthquake.hypocenter.latitude !== -200 &&
-                hero.points.length > 0
+                data.earthquake.hypocenter.latitude !== -200 &&
+                data.points.length > 0
             );
         });
 
