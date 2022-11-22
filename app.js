@@ -100,7 +100,7 @@ map = new maplibregl.Map({
     },
     center: [137.8894, 39.0613],
     zoom: 4,
-    pitch: 60,
+    pitch: 0,
     customAttribution:
         "データ出典：<a href='https://www.p2pquake.net/' target='_blank'>P2P地震情報</a>・<a href='https://www.jma.go.jp/jma/index.html' target='_blank'>気象庁HP</a>",
 });
@@ -251,6 +251,7 @@ function Jump(params) {
         ],
         {
             padding: 100,
+            pitch: 60,
         },
     );
     // アニメーション
