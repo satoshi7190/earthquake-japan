@@ -244,16 +244,30 @@ function Jump(params) {
     ]);
 
     // カメラを移動
-    map.fitBounds(
-        [
-            [square[0], square[1]],
-            [square[2], square[3]],
-        ],
-        {
-            padding: 100,
-            pitch: 60,
-        },
-    );
+    if (matchMedia('only screen and (max-width: 640px)').matches) {
+        map.fitBounds(
+            [
+                [square[0], square[1]],
+                [square[2], square[3]],
+            ],
+            {
+                padding: 0,
+                pitch: 60,
+            },
+        );
+    } else {
+        map.fitBounds(
+            [
+                [square[0], square[1]],
+                [square[2], square[3]],
+            ],
+            {
+                padding: 100,
+                pitch: 60,
+            },
+        );
+    }
+
     // アニメーション
     const anime = () => {
         // 描画リセット

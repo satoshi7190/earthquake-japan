@@ -153,3 +153,28 @@ button .name {
         opacity: 1;
     }
 }
+
+@media (max-width: 640px) {
+    #map {
+        top: 0;
+        bottom: 0;
+        height: 50%;
+    }
+
+    #buttonlist {
+        width: 100%;
+        height: 50%;
+    }
+
+    #buttonlist button {
+        width: calc(100% - 20px);
+    }
+
+    button.active {
+        height: 65px !important;
+    }
+
+    #status {
+        display: none;
+    }
+}
